@@ -74,7 +74,7 @@ serviceAccount: kpack-builder
 and, the image registry to which to push the results, and the name of the image, are defined by:
 
 ```
-tag: registry.%session_namespace%.svc.cluster.local/sample-java-app
+tag: registry-%workshop_namespace%.%ingress_domain%/sample-java-app
 ```
 
 This definition has been automatically filled out with the address of the local image registry deployed to the namespace you are working in.
@@ -106,8 +106,10 @@ interrupt the tailing of the logs:
 At this point the built image has been uploaded to the local image registry. You can inspect details of the image by running:
 
 ```execute-1
-skopeo inspect --tls-verify=false docker://registry.$SESSION_NAMESPACE.svc.cluster.local/sample-java-app
+skopeo inspect docker://registry-%session_namespace%.%ingress_domain%/sample-java-app
 ```
+
+**_NOTE_**: If the registry is running with self signed certificates you might need to add `--tls-verify=false` to the previous command
 
 The set of resources to deploy the image can be viewed by running:
 

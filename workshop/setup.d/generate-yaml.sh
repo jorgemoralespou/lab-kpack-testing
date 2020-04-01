@@ -1,12 +1,9 @@
 #!/bin/bash
 
-# Fill the namespace in the address of the local image registry.
+# Fill in the values from variables substitution
+cat .exercises/values.yaml.in | envsubst > .exercises/values.yaml
 
-cat exercises/image.yaml.in | envsubst > exercises/image.yaml
+# Execute the templates
 
-# Fill in the IP address of the local image registry service.
-
-REGISTRY_IP=`kubectl get service/registry -o template --template '{{.spec.clusterIP}}'`
-export REGISTRY_IP
-
-cat exercises/deployment.yaml.in | envsubst > exercises/deployment.yaml
+ytt -f .exercises/values.yaml -f .exercises/deployment.yaml > exercises/deployment.yaml
+ytt -f .exercises/values.yaml -f .exercises/image.yaml > exercises/image.yaml

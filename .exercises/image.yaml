@@ -1,9 +1,11 @@
+#@ load("@ytt:data", "data")
+---
 apiVersion: build.pivotal.io/v1alpha1
 kind: Image
 metadata:
   name: sample-java-app
 spec:
-  tag: registry.${SESSION_NAMESPACE}.svc.cluster.local/sample-java-app
+  tag: #@ "{}/sample-java-app".format(data.values.registry_url)
   serviceAccount: kpack-builder
   builder:
     name: builder

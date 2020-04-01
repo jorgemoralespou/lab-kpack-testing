@@ -1,3 +1,6 @@
+#@ load("@ytt:data", "data")
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,7 +17,7 @@ spec:
     spec:
       containers:
       - name: sample-java-app
-        image: ${REGISTRY_IP}/sample-java-app:latest
+        image: #@ "{}/sample-java-app:latest".format(data.values.registry_url)
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -38,10 +41,11 @@ metadata:
   name: sample-java-app
 spec:
   rules:
-  - host: ${SESSION_NAMESPACE}-app.${INGRESS_DOMAIN}
+  - host: #@ "{}-app.{}".format(data.values.session_namespace, data.values.ingress_domain)
     http:
       paths:
       - path: "/"
         backend:
           serviceName: sample-java-app
           servicePort: 8080
+

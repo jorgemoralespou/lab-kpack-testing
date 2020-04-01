@@ -1,0 +1,5 @@
+#@data/values
+---
+registry_url: registry-${WORKSHOP_NAMESPACE}.${INGRESS_DOMAIN}
+session_namespace: ${SESSION_NAMESPACE}
+ingress_domain: ${INGRESS_DOMAIN}
